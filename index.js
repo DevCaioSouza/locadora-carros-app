@@ -28,4 +28,8 @@ conn
 
   app.get('/carros', CarController.showAllCars);
 
+  app.get('/carros/:id', CarController.showCarById);
+
   app.post('/carros', CarController.createCar);
+
+  app.put('/carros/:id', CarController.updateCar);
