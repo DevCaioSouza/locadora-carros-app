@@ -28,8 +28,14 @@ conn
 
   app.get('/carros', CarController.showAllCars);
 
-  app.get('/carros/:id', CarController.showCarById);
+  app.get('/carros/disponiveis', CarController.availableCars);
 
+  app.post('/carros/alugar', CarController.rentCar);
+
+  app.get('/carros/alugados', CarController.showRentedCars);
+
+  app.get('/carros/:id', CarController.showCarById);
+  
   app.post('/carros', CarController.createCar);
 
   app.put('/carros/:id', CarController.updateCar);
