@@ -9,6 +9,9 @@ const conn = require('./db/conn');
 const Car = require('./models/Car');
 const CarController = require('./controllers/CarController');
 
+const Timeline = require('./models/Timeline');
+const TimelineController = require('./controllers/TimelineController');
+
 conn
   .sync()
   .then(() => {
@@ -30,12 +33,11 @@ conn
 
   app.get('/carros/disponiveis', CarController.availableCars);
 
-  app.post('/carros/alugar', CarController.rentCar);
-
-  app.get('/carros/alugados', CarController.showRentedCars);
+  app.post('/carros/alugar', TimelineController.rentCar);
 
   app.get('/carros/:id', CarController.showCarById);
   
   app.post('/carros', CarController.createCar);
 
   app.put('/carros/:id', CarController.updateCar);
+

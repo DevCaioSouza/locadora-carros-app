@@ -1,8 +1,19 @@
 const { where } = require('sequelize');
 const Car = require('../models/Car');
+const Timeline = require('../models/Timeline');
 
 module.exports = class CarController {
+
   static async showAllCars(req, res){
+
+    const cars = await Car.findAll();
+
+    const allCars = cars.map((result) => result.get());
+
+    res.json(allCars);
+  }
+
+  static async availableCars(req, res){
 
     const cars = await Car.findAll();
 
@@ -58,6 +69,5 @@ module.exports = class CarController {
     })
   
     res.json('Carro atualizado');
-
   }
 }
