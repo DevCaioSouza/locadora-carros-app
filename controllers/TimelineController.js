@@ -3,7 +3,17 @@ const Car = require('../models/Car');
 const Timeline = require('../models/Timeline');
 
 module.exports = class TimelineController {
-  
+
+
+  static async showRentedCars(req, res){
+
+    const rentedCars = await Timeline.findAll();
+
+    const allRentedCars = rentedCars.map((result) => result.get());
+
+    res.send(allRentedCars);
+  }
+    
   static async rentCar(req, res){
     const timelineEvent = {
       carId: req.body.carId,
@@ -28,7 +38,13 @@ module.exports = class TimelineController {
     if(ownedCarObj.id == timelineEvent.carId){
       try{
 
-        if(timelineEvent){
+        const isCarRented = await Timeline.findOne({
+          where: {
+            carId: timelineEvent.carId
+          }
+        })
+
+        if(isCarRented){
           res.json('Esse carro já está alugado');
           return
         }

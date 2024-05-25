@@ -2,6 +2,8 @@ const { where } = require('sequelize');
 const Car = require('../models/Car');
 const Timeline = require('../models/Timeline');
 
+const availableArr = [];
+
 module.exports = class CarController {
 
   static async showAllCars(req, res){
@@ -15,11 +17,15 @@ module.exports = class CarController {
 
   static async availableCars(req, res){
 
+    const rentedCars = await Timeline.findAll();
+    const getRentedIds = rentedCars.map( result => result.carId );
+
     const cars = await Car.findAll();
+    const carsIds = cars.map(result => result.id)
 
-    const allCars = cars.map((result) => result.get());
+    const filteredResults = carsIds.filter(element => !getRentedIds.includes(element));
 
-    res.json(allCars);
+    res.json(filteredResults);
   }
 
   static async showCarById(req, res){
@@ -69,5 +75,18 @@ module.exports = class CarController {
     })
   
     res.json('Carro atualizado');
+  }
+
+  static async deleteCar(req, res){
+
+    const carId = req.params.id;
+
+    await Car.destroy({
+      where: {
+        id: carId
+      }
+    })
+
+    res.json('Carro deletado');
   }
 }
